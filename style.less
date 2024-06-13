@@ -1,0 +1,30 @@
+ul.plugin_versionswitch {
+    list-style: none;
+    border: 1px solid @ini_border;
+
+    li {
+        margin: 0;
+        padding: 0.25em;
+        display: none;
+
+        a {
+            display: block;
+        }
+    }
+
+    li.missing {
+        opacity: 0.5;
+
+        // override default missing style
+        a.wikilink2:link,
+        a.wikilink2:visited {
+            border-bottom: none;
+        }
+    }
+
+    &:focus-within li,
+    &:hover li,
+    li.current {
+        display: block;
+    }
+}

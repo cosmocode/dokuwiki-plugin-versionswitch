@@ -1,0 +1,11 @@
+name: DokuWiki Default Tasks
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '32 11 21 * *'
+
+
+jobs:
+  all:
+    uses: dokuwiki/github-action/.github/workflows/all.yml@main
