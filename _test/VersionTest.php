@@ -85,6 +85,23 @@ class VersionTest extends DokuWikiTest
         );
     }
 
+    public function testGetVersionsDefaultRegex()
+    {
+        $version = new \dokuwiki\plugin\versionswitch\Version(
+            ':en:products',
+            'en:products:latest_release:foo'
+        );
+
+        $this->assertEquals(
+            [
+                'wip' => 'Work in Progress',
+                'latest_release' => 'Latest Release',
+                'archive' => 'archive',
+            ],
+            $version->getVersions()
+        );
+    }
+
     public function testHTML()
     {
         global $INFO;

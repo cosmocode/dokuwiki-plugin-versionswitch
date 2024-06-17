@@ -11,6 +11,8 @@ class Version
     protected $namespace = '';
     protected $idpart = '';
 
+    const DEFAULT_REGEX = '[^:]+';
+
     public function __construct($conf, $id)
     {
         $this->match($this->conf2List($conf), $id);
@@ -59,7 +61,7 @@ class Version
             [$ns, $re] = sexplode(' ', $line, 2, '');
             $ns = ':' . cleanID($ns);
             $re = trim($re);
-            if ($re === '') $re = '[^:]+'; // default is direct namespaces
+            if ($re === '') $re = self::DEFAULT_REGEX; // default is direct namespaces
 
             $result[$ns] = $re;
         }
@@ -166,8 +168,10 @@ class Version
                 $versions[ltrim("$subns:$itemid", ':')] = $match[0];
             }
 
-            // traverse into sub namespace todo: optimzize for default regex which needs no further traversal
-            $versions = array_merge($versions, $this->readVersionDirs($dir, ltrim("$sub/$item", '/')));
+            // traverse into sub namespace unless default regex is used
+            if ($this->regex !== self::DEFAULT_REGEX) {
+                $versions = array_merge($versions, $this->readVersionDirs($dir, ltrim("$sub/$item", '/')));
+            }
         }
         closedir($fh);
         return $versions;
