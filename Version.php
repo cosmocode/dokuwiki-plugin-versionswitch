@@ -4,6 +4,9 @@ namespace dokuwiki\plugin\versionswitch;
 
 use dokuwiki\File\PageResolver;
 
+/**
+ * Manage the current page's version
+ */
 class Version
 {
     protected $regex = '';
@@ -13,27 +16,56 @@ class Version
 
     const DEFAULT_REGEX = '[^:]+';
 
+    /**
+     * @param string $conf The configuration string containing the namespaces and regexes
+     * @param string $id The current page id
+     */
     public function __construct($conf, $id)
     {
         $this->match($this->conf2List($conf), $id);
     }
 
+    /**
+     * The regex that applies to the current namespace
+     *
+     * This will be empty if the current page is not in a versioned namespace
+     *
+     * @return string
+     */
     public function getRegex(): string
     {
         return $this->regex;
     }
 
-    public function getVersion(): string
-    {
-        return $this->version;
-    }
-
-
+    /**
+     * The base namespace that applies to the current page
+     *
+     * This will be empty if the current page is not in a versioned namespace
+     *
+     * @return string
+     */
     public function getBaseNamespace(): string
     {
         return $this->namespace;
     }
 
+    /**
+     * The version that applies to the current page
+     *
+     * This will be empty if the current page is not in a versioned namespace
+     *
+     * @return string
+     */
+    public function getVersion(): string
+    {
+        return $this->version;
+    }
+
+    /**
+     * The part of the id that comes after the version namespace
+     *
+     * @return string
+     */
     public function getIdPart(): string
     {
         return $this->idpart;
