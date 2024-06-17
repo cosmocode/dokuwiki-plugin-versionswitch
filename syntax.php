@@ -1,5 +1,6 @@
 <?php
 
+use dokuwiki\plugin\versionswitch\Version;
 use dokuwiki\Extension\SyntaxPlugin;
 
 /**
@@ -60,7 +61,7 @@ class syntax_plugin_versionswitch extends SyntaxPlugin
     public function versionSelector()
     {
         global $INFO;
-        $version = new \dokuwiki\plugin\versionswitch\Version($this->getConf('regexes'), $INFO['id']);
+        $version = new Version($this->getConf('regexes'), $INFO['id']);
         $base = $version->getBaseNamespace();
         if ($base === '') return '';
         $current = $version->getVersion();
@@ -69,14 +70,14 @@ class syntax_plugin_versionswitch extends SyntaxPlugin
         $doc .= '<ul class="plugin_versionswitch">';
         foreach ($version->getVersions() as $ns => $title) {
             $id = $base . ':' . $ns . ':' . $version->getIdPart();
-            if(auth_quickaclcheck($id) < AUTH_READ) continue; // skip if user can't read the target
+            if (auth_quickaclcheck($id) < AUTH_READ) continue; // skip if user can't read the target
 
             $classes = [];
             if ($ns === $current) $classes[] = 'current';
             $classes[] = page_exists($id) ? 'exists' : 'missing';
 
 
-            $doc .= sprintf('<li class="%s">', join(' ', $classes));
+            $doc .= sprintf('<li class="%s">', implode(' ', $classes));
             $doc .= html_wikilink($id, $title);
             $doc .= '</li>';
         }

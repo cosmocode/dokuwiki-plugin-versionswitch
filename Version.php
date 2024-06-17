@@ -6,7 +6,6 @@ use dokuwiki\File\PageResolver;
 
 class Version
 {
-
     protected $regex = '';
     protected $version = '';
     protected $namespace = '';
@@ -112,7 +111,7 @@ class Version
 
         // get titles for the versions
         $resolver = new PageResolver('start'); // context doesn't matter, we always use absolute IDs
-        foreach ($versions as $ns => $version) {
+        foreach (array_keys($versions) as $ns) {
             $startPage = $resolver->resolveId($this->namespace . ':' . $ns . ':');
             $title = p_get_first_heading($startPage,);
             if ($title) $versions[$ns] = $title;
@@ -136,7 +135,7 @@ class Version
     {
         $countA = substr_count($a, ':');
         $countB = substr_count($b, ':');
-        if ($countA != $countB) return $countA - $countB;
+        if ($countA !== $countB) return $countA - $countB;
         return 0;
     }
 
