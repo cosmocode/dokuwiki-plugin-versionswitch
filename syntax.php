@@ -48,7 +48,7 @@ class syntax_plugin_versionswitch extends SyntaxPlugin
         if ($mode !== 'xhtml') {
             return false;
         }
-
+        $renderer->nocache();
         $renderer->doc .= $this->versionSelector();
         return true;
     }
