@@ -14,7 +14,7 @@ class Version
     protected $namespace = '';
     protected $idpart = '';
 
-    const DEFAULT_REGEX = '[^:]+';
+    public const DEFAULT_REGEX = '[^:]+';
 
     /**
      * @param string $conf The configuration string containing the namespaces and regexes
