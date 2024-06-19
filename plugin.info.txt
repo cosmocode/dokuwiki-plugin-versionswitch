@@ -1,7 +1,7 @@
 base   versionswitch
 author Andreas Gohr
 email  dokuwiki@cosmocode.de
-date   2024-06-17
+date   2024-06-19
 name   versionswitch plugin
 desc   Easily switch between different documented versions
 url    https://www.dokuwiki.org/plugin:versionswitch
