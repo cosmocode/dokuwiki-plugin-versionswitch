@@ -150,27 +150,24 @@ class Version
             $title = p_get_first_heading($startPage,);
             if ($title) $versions[$ns] = $title;
         }
-
-        // sort, first by version, then by depth
-        uasort($versions, 'version_compare');
-        uksort($versions, [$this, 'sortByDepth']);
+        uksort($versions, [$this, 'sortByDepthAndVersion']);
 
         return $versions;
     }
 
     /**
-     * Sort by depth of the namespace
+     * Sort by depth of the namespace and by version
      *
      * @param string $a
      * @param string $b
      * @return int
      */
-    protected function sortByDepth($a, $b)
+    public function sortByDepthAndVersion($a, $b)
     {
         $countA = substr_count($a, ':');
         $countB = substr_count($b, ':');
         if ($countA !== $countB) return $countA - $countB;
-        return 0;
+        return version_compare($b, $a); // reverse order
     }
 
     /**

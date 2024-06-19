@@ -121,4 +121,42 @@ class VersionTest extends DokuWikiTest
         $this->assertEquals(2, $doc->find('li.missing')->count());
         $this->assertEquals(1, $doc->find('li.current')->count());
     }
+
+    public function testSorting()
+    {
+        $input = [
+            'archive:v7.5',
+            'wip',
+            'latest_release',
+            'other:3.0',
+            'archive:v7.15',
+            'other:4.5',
+            'other:4.6',
+        ];
+
+        $expected = [
+            'wip',
+            'latest_release',
+            'archive:v7.15',
+            'archive:v7.5',
+            'other:4.6',
+            'other:4.5',
+            'other:3.0',
+        ];
+
+        $version = new \dokuwiki\plugin\versionswitch\Version(
+            ':en:products    (latest_release|wip|archive:[^:]+)',
+            'en:products:latest_release:foo'
+        );
+
+        usort($input, [$version, 'sortByDepthAndVersion']);
+        $this->assertEquals($expected, $input);
+
+        // just to be sure, test with shuffled input
+        shuffle($input);
+        usort($input, [$version, 'sortByDepthAndVersion']);
+        $this->assertEquals($expected, $input);
+    }
+
+
 }
